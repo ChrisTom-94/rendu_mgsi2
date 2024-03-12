@@ -5,6 +5,8 @@ Dans chaque dossiers de tp vous trouverez uniquement les classes necessaires pou
 
 ## Installation
 
+> **Note:** Le seul projet qu'il ne faut pas compiler est le `TP_Automate (CIFS)`. Pour ce TP, il faut se placer à la racine du dossier et lancer le make
+
 > **Note:** Pour compiler les projets, vous devez avoir `python` d'installé sur votre machine et vous devez vous trouver à la racine du projet (au même niveau que ce README.md).
 
 Pour installer les projets taper la commande suivante:
