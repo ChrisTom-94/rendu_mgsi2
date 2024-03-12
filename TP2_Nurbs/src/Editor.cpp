@@ -61,7 +61,6 @@ namespace TP2_Nurbs
         bool ShowCurvatureMap = false;
 
         bool IsDragging = false;
-        bool IsExtruding = false;
     };
 
     static SurfaceData s_SurfaceData;
@@ -79,7 +78,8 @@ namespace TP2_Nurbs
         float farClip = 100.0f;
         PerspectiveCameraSettings cameraSettings = {fov, aspectRatio, nearClip, farClip};
         m_Camera = CreateShared<PerspectiveCamera>(cameraSettings);
-        m_CameraController = CreateShared<ArcBallCameraController>(m_Camera, glm::vec3(0.0f, 0.0f, 0.0f), 5.0f);
+        m_CameraController = CreateShared<ArcBallCameraController>(m_Camera, glm::vec3(0.0f, 0.0f, 0.0f), 10.0f);
+        m_CameraController->SetTrigger(Events::ButtonRight);
 
         // add control points
         s_SurfaceData.ControlPoints = std::vector<std::vector<ControlPoint>>{};
@@ -288,8 +288,6 @@ namespace TP2_Nurbs
 
         if (!&point || !point.Hovered || s_SurfaceData.SelectedControlPoint == &point)
         {
-            s_EditorData.IsExtruding = false;
-
             if (s_EditorData.IsDragging)
             {
                 s_EditorData.IsDragging = false;

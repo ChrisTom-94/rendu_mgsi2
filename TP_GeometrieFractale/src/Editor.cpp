@@ -40,9 +40,9 @@ namespace TP_GeometrieFractale
     void Editor::OnAttach()
     {
         FractalMountainSettings settings;
-        settings.Iterations = 4;
-        settings.Roughness = 4.0f;
-        settings.Size = 10.0f;
+        settings.Iterations = 5;
+        settings.Roughness = 2.0f;
+        settings.Size = 12.0f;
         s_Data.Mountain = FractalMountain(settings);
 
         s_Data.Transform.SetRotation({-90.0f, 0.0f, 0.0f});
@@ -50,7 +50,7 @@ namespace TP_GeometrieFractale
 
         s_Data.SceneLight.Position = {0.0f, 12.0f, 2.0f};
         s_Data.SceneLight.Color = {1.0f, 1.0f, 1.0f};
-        s_Data.SceneLight.Intensity = 5.0f;
+        s_Data.SceneLight.Intensity = 10.0f;
 
         Renderer::Init();
         Renderer::UpdateMountain(s_Data.Mountain);
@@ -81,9 +81,9 @@ namespace TP_GeometrieFractale
         }
 
         { // Fractal roughness
-            int roughness = s_Data.Mountain.GetRoughness();
-            int min = 3, max = 7;
-            if (ImGui::SliderInt("Roughness", &roughness, min, max))
+            float roughness = s_Data.Mountain.GetRoughness();
+            float min = 1.0f, max = 6.0f;
+            if (ImGui::SliderFloat("Roughness", &roughness, min, max))
             {
                 s_Data.Mountain.SetRoughness(roughness);
                 Renderer::UpdateMountain(s_Data.Mountain);

@@ -131,13 +131,18 @@ namespace TP_GeometrieFractale
         { // draw mountain
             s_Data.MountainBuffers.Program->Bind();
             s_Data.MountainBuffers.Program->SetInt("u_IsWireframe", isWireframe);
+            s_Data.MountainBuffers.Program->SetFloat("u_MaxHeight", mountain.GetMaxHeight());
             auto count = mountain.GetIndices().size();
             RenderCommand::DrawIndexed(s_Data.MountainBuffers.Vao, count);
         }
 
+        // do not draw sea if wireframe mode is enabled
+        // so we can see the mountain wireframe better
+        if(isWireframe)
+            return;
+
         { // draw sea
             s_Data.SeaBuffers.Program->Bind();
-            s_Data.SeaBuffers.Program->SetInt("u_IsWireframe", isWireframe);
             RenderCommand::DrawIndexed(s_Data.SeaBuffers.Vao, 6);
         }
     }

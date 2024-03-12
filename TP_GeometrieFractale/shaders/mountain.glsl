@@ -57,6 +57,7 @@ layout(std140, binding = 2) uniform Light
 };
 
 uniform bool u_IsWireframe;
+uniform float u_MaxHeight;
 
 layout(location = 0) out vec4 o_Color;
 
@@ -81,10 +82,13 @@ void main()
 
     vec3 mountainColor = vec3(0.18, 0.11, 0.02);
 
-    if (Input.Position.y > 2.)
+    float height = Input.Position.y / u_MaxHeight;
+
+    if(height > 0.8)
     {
         mountainColor = vec3(1.0);
     }
+
 
     vec3 color = (u_AmbientLightColor.rgb + diffuse + specular) * mountainColor;
 

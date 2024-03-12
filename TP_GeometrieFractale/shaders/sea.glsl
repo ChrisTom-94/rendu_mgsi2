@@ -57,18 +57,10 @@ layout(std140, binding = 2) uniform Light
     vec4 u_LightColorAndIntensity;
 };
 
-uniform bool u_IsWireframe;
-
 layout(location = 0) out vec4 o_Color;
 
 void main()
 {
-    if (u_IsWireframe)
-    {
-        o_Color = vec4(1.0);
-        return;
-    }
-
     vec3 lightDirection = normalize(u_LightPosition.xyz - Input.Position);
     vec3 diffuse = max(dot(Input.Normal, lightDirection), 0.0) * u_LightColorAndIntensity.rgb * u_LightColorAndIntensity.a;
 

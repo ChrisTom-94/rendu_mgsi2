@@ -3,16 +3,7 @@
 FractalMountain::FractalMountain(FractalMountainSettings settings)
     : m_Settings(settings)
 {
-    SmartGL::PlaneGeometrySettings planeSettings;
-    planeSettings.Width = m_Settings.Size;
-    planeSettings.Height = m_Settings.Size;
-    planeSettings.WidthSegments = 1 << m_Settings.Iterations;
-    planeSettings.HeightSegments = planeSettings.WidthSegments;
-    SmartGL::PlaneGeometry plane(planeSettings);
-
-    m_Vertices = plane.GetVertices();
-    m_Normals = plane.GetNormals();
-    m_Indices = plane.GetIndices();
+    SmartGL::Random::Init();
     Generate();
 }
 
@@ -43,15 +34,14 @@ void FractalMountain::Generate()
 
             for (float x = step; x < gridSize; x += rowCount)
                 for (float y = step; y < gridSize; y += rowCount)
+                {
                     SquareStep(x, y, step);
 
-            float offset = 0.0f;
-            for (float x = 0; x < gridSize; x += step)
-            {
-                offset = (offset == 0.0f) ? step : 0.0f;
-                for (float y = offset; y < gridSize; y += rowCount)
-                    DiamondStep(x, y, step);
-            }
+                    DiamondStep(x + step, y, step);
+                    DiamondStep(x - step, y, step);
+                    DiamondStep(x, y + step, step);
+                    DiamondStep(x, y - step, step);
+                }
             rowCount = step;
         }
     }
@@ -63,12 +53,11 @@ void FractalMountain::SquareStep(int x, int y, int step)
 {
     uint32_t gridSize = (1 << m_Settings.Iterations) + 1;
     float average = 0.0f;
-    int count = 0;
 
-    average += m_Vertices[(x - step) + (y - step) * gridSize].z;
-    average += m_Vertices[(x + step) + (y - step) * gridSize].z;
-    average += m_Vertices[(x - step) + (y + step) * gridSize].z;
-    average += m_Vertices[(x + step) + (y + step) * gridSize].z;
+    average += m_Vertices[(x - step) + ((y - step) * gridSize)].z;
+    average += m_Vertices[(x + step) + ((y - step) * gridSize)].z;
+    average += m_Vertices[(x - step) + ((y + step) * gridSize)].z;
+    average += m_Vertices[(x + step) + ((y + step) * gridSize)].z;
 
     average /= 4;
     float distance = step * 2;

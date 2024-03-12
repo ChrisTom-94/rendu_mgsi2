@@ -54,6 +54,14 @@ public:
 
     inline std::vector<uint32_t> GetIndices() const { return m_Indices; }
 
+    inline float GetMaxHeight() const {
+        float max = 0.0f;
+        for (auto vertex : m_Vertices)
+            if (vertex.z > max)
+                max = vertex.z;
+        return max;
+    }
+
 
 private:
     void ComputeNormals();
